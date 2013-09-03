@@ -1,102 +1,118 @@
 <html>
-	<head>
-		<title>Skeleton Haptic Test</title>
-		<script src="http://localhost:1337/socket.io/socket.io.js"></script>
-		<style>
-			#skeleton{
-			  height: 600px;
-			  width: 328px;
-			  margin: 0 auto;
-			  background: url('http://ewe.insomniacbychoice.com/images/skeleton.png') no-repeat center center;
-			  position: relative;
-			}
-			#wrapper{
-			  width: 100%;
-			}
+    <head>
+        <title>Skeleton Haptic Test</title>
+        <script src="http://localhost:1337/socket.io/socket.io.js"></script>
+        <style>
+            #skeleton{
+              height: 600px;
+              width: 328px;
+              margin: 0 auto;
+              background: url('http://ewe.insomniacbychoice.com/images/skeleton.png') no-repeat center center;
+              position: relative;
+            }
 
-			button {
-				position: absolute;
-			}
+            #wrapper{
+              width: 100%;
+            }
 
-			#right-arm-1 {
-			  left: 10px;
-			  top: 256px;
-			}
+            button {
+                position: absolute;
+                width: 72px;
+            }
 
-			#right-arm-2 {
-			  left: 67px;
-			  top: 146px;
-			}
-			#left-arm-1 {
-			  left: 267px;
-			  top: 256px;
-			}
-			#left-arm-2 {
-			  left: 207px;
-			  top: 146px;
-			}
+            #right-arm-1a { left: -20px; top: 256px; }
+            #right-arm-1b { left: -20px; top: 276px; }
 
-			#right-leg-1{
-			  left: 110px;
-			  top: 346px;
-			}
+            #right-arm-2a { left: 50px; top: 146px; }
+            #right-arm-2b { left: 50px; top: 166px; }
 
-			#right-leg-2{
-			  left: 67px;
-			  top: 516px;
-			}
-			#left-leg-1{
-			  left: 187px;
-			  top: 346px;
-			}
-			#left-leg-2{
-			  left: 157px;
-			  top: 516px;
-			}
-		</style>
-	</head>
-	<body>
-		<div id="wrapper">
-			<div id="skeleton">
-				<button id="left-arm-1" data-key="2">Pin 2</button>
-				<button id="left-arm-2" data-key="3">Pin 3</button>
+            #left-arm-1a { left: 267px; top: 256px; }
+            #left-arm-1b { left: 267px; top: 276px; }
 
-				<button id="right-arm-1" data-key="4">Pin 4</button>
-				<button id="right-arm-2" data-key="5">Pin 5</button>
+            #left-arm-2a { left: 207px; top: 146px; }
+            #left-arm-2b { left: 207px; top: 166px; }
 
-				<button id="left-leg-1" data-key="6">Pin 6</button>
-				<button id="left-leg-2" data-key="7">Pin 7</button>
+            #right-leg-1a { left: 80px; top: 346px; }
+            #right-leg-1b { left: 80px; top: 366px; }
 
-				<button id="right-leg-1" data-key="8">Pin 8</button>
-				<button id="right-leg-2" data-key="9">Pin 9</button>
+            #right-leg-2a { left: 67px; top: 516px; }
+            #right-leg-2b { left: 67px; top: 536px; }
 
-			</div>
-		</div>
-		<script>
-			var i,
+            #left-leg-1a { left: 187px; top: 346px; }
+            #left-leg-1b { left: 187px; top: 366px; }
+
+            #left-leg-2a { left: 157px; top: 516px; }
+            #left-leg-2b { left: 157px; top: 536px; }
+
+            i {
+                position: absolute;
+                float: left;
+                display: block;
+                left: 165px;
+                top: 59px;
+                width: 26px;
+                height: 10px;
+                border-radius: 5px;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div id="wrapper">
+            <div id="skeleton">
+                <button id="left-arm-1a" data-key="2" data-value="255">Pin 2 High</button>
+                <button id="left-arm-1b" data-key="2" data-value="120">Pin 2 Low</button>
+
+                <button id="left-arm-2a" data-key="3" data-value="255">Pin 3 High</button>
+                <button id="left-arm-2b" data-key="3" data-value="120">Pin 3 Low</button>
+
+                <button id="right-arm-1a" data-key="4" data-value="255">Pin 4 High</button>
+                <button id="right-arm-1b" data-key="4" data-value="120">Pin 4 Low</button>
+
+                <button id="right-arm-2a" data-key="5" data-value="255">Pin 5 High</button>
+                <button id="right-arm-2b" data-key="5" data-value="120">Pin 5 Low</button>
+
+                <button id="left-leg-1a" data-key="6" data-value="255">Pin 6 High</button>
+                <button id="left-leg-1b" data-key="6" data-value="120">Pin 6 Low</button>
+
+                <button id="left-leg-2a" data-key="7" data-value="255">Pin 7 High</button>
+                <button id="left-leg-2b" data-key="7" data-value="120">Pin 7 Low</button>
+
+                <button id="right-leg-1a" data-key="8" data-value="255">Pin 8 High</button>
+                <button id="right-leg-1b" data-key="8" data-value="120">Pin 8 Low</button>
+
+                <button id="right-leg-2a" data-key="9" data-value="255">Pin 9 High</button>
+                <button id="right-leg-2b" data-key="9" data-value="120">Pin 9 Low</button>
+
+                <i></i>
+            </div>
+        </div>
+        <script>
+            var i,
 
                 // Capture all the buttons as variables
-				buttons = document.getElementsByTagName('button'),
+                buttons = document.getElementsByTagName('button'),
 
                 // Connect to Socket.io
-				socket = io.connect('http://localhost:1337'),
+                socket = io.connect('http://localhost:1337'),
 
                 // Setup the button function
-				tapLimb = function () {
+                tapLimb = function () {
 
                     // Simply emit the data-key attribute
-					socket.emit('btnPress', { key: this.getAttribute('data-key') });
+                    socket.emit('btnPress', { key: this.dataset.key, value : this.dataset.value });
 
-				};
+                };
 
             // Loop through the buttons on the page
-			for(i = 0; i < buttons.length; i++){
+            for(i = 0; i < buttons.length; i++){
 
                 // Append the mousedown and mouseup states to be the created function
-				buttons[i].addEventListener('mousedown', tapLimb);
-				buttons[i].addEventListener('mouseup', tapLimb);
+                buttons[i].addEventListener('mousedown', tapLimb);
+                buttons[i].addEventListener('mouseup', tapLimb);
 
-			}
-		</script>
-	</body>
+            }
+        </script>
+        <script type="text/javascript" src="/vr.js"></script>
+    </body>
 </html>

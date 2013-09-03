@@ -135,7 +135,7 @@ var five	= require("johnny-five"),
                         }
 
                         // With all the processing done to the value, it doesn't need cleaning, it's good to go.
-                        boardLEDs[i].fade(pinData.value);
+                        boardLEDs[i].fade(pinData.value, 50);
 
                     } else {
 
@@ -143,7 +143,7 @@ var five	= require("johnny-five"),
                         boardLEDs[i].isActive = false;
 
                         // Deactivate the LED
-                        boardLEDs[i].fade(0);
+                        boardLEDs[i].fade(0, 50);
 
                     }
                 }

@@ -2,92 +2,7 @@
     <head>
         <title>Skeleton Haptic Test</title>
         <script src="http://localhost:1337/socket.io/socket.io.js"></script>
-        <style>
-            #skeleton{
-              height: 600px;
-              width: 328px;
-              margin: 0 auto;
-              background: url('http://ewe.insomniacbychoice.com/images/skeleton.png') no-repeat center center;
-              position: relative;
-            }
-
-            #wrapper{
-              width: 100%;
-            }
-
-            button {
-                position: absolute;
-                width: 72px;
-            }
-
-            #right-arm-1a { left: -20px; top: 256px; }
-            #right-arm-1b { left: -20px; top: 276px; }
-
-            #right-arm-2a { left: 50px; top: 146px; }
-            #right-arm-2b { left: 50px; top: 166px; }
-
-            #left-arm-1a { left: 267px; top: 256px; }
-            #left-arm-1b { left: 267px; top: 276px; }
-
-            #left-arm-2a { left: 207px; top: 146px; }
-            #left-arm-2b { left: 207px; top: 166px; }
-
-            #right-leg-1a { left: 80px; top: 346px; }
-            #right-leg-1b { left: 80px; top: 366px; }
-
-            #right-leg-2a { left: 67px; top: 516px; }
-            #right-leg-2b { left: 67px; top: 536px; }
-
-            #left-leg-1a { left: 187px; top: 346px; }
-            #left-leg-1b { left: 187px; top: 366px; }
-
-            #left-leg-2a { left: 157px; top: 516px; }
-            #left-leg-2b { left: 157px; top: 536px; }
-
-            i {
-                position: absolute;
-                float: left;
-                display: block;
-                left: 165px;
-                top: 59px;
-                width: 26px;
-                height: 10px;
-                border-radius: 5px;
-            }
-
-            a[class^="qwopbtn-"] {
-                position: relative;
-                top: 0px;
-                display: block;
-                width: 72px;
-                height: 72px;
-                line-height: 72px;
-                border: 1px solid grey;
-                border-radius: 4px;
-                color: silver;
-                text-align: center;
-                margin: 5px;
-                font-size:32px;
-            }
-
-            .qwopbtn-q,
-            .qwopbtn-w {
-                float: left;
-                left: 0px;
-            }
-
-            .qwopbtn-o,
-            .qwopbtn-p {
-                float: right;
-                right: 0px;
-            }
-
-            a.active {
-                color: #000;
-                background-color: silver;
-            }
-
-        </style>
+        <link href="/interface.css" rel="stylesheet" type="text/css" />
     </head>
     <body>
         <div id="wrapper">
@@ -129,108 +44,27 @@
                 socket = io.connect('http://localhost:1337'),
 
                 // Setup the button function
-                tapLimb = function () {
+                tapLimb = function (activated) {
 
-                    // Simply emit the data-key attribute
-                    socket.emit('btnPress', { key: this.dataset.key, value : this.dataset.value });
+                    // Simply emit the data-key attribute along with the value of the button or 0 if the action is depressed
+                    socket.emit('btnPress', {
+                        key: this.dataset.key,
+                        value : ((activated) ? this.dataset.value.parseInt() : 0)
+                    });
 
-                },
-
-                QWOPKeys = {};
-
-                // Parse the key entered
-                activateQWOP = function (evt) {
-
-                    // Check to see if the key pressed was "Q"
-                    if (evt.keyCode !== 81) return;
-
-                    // Remove the checking event listener
-                    document.removeEventListener('keyup', activateQWOP);
-
-                    QWOPKeys = {
-                        w : document.createElement('a'),
-                        q : document.createElement('a'),
-                        o : document.createElement('a'),
-                        p : document.createElement('a')
-                    };
-
-                    for (k in Object.keys(QWOPKeys)) {
-
-                        QWOPKeys[Object.keys(QWOPKeys)[k]].className = 'qwopbtn-' + Object.keys(QWOPKeys)[k];
-                        QWOPKeys[Object.keys(QWOPKeys)[k]].innerHTML = Object.keys(QWOPKeys)[k].toUpperCase();
-
-                        document.getElementsByTagName('body')[0].insertBefore(QWOPKeys[Object.keys(QWOPKeys)[k]], document.getElementsByTagName('body')[0].firstChild);
-
-                    }
-
-                    // Add a keydown and keyup listener to the document
-                    document.addEventListener('keydown', QWOPCommand);
-                    document.addEventListener('keyup', QWOPCommand);
-
-                },
-
-                // Parse any keys pressed after the document has been initialized for QWOP play
-                QWOPCommand = function (evt) {
-
-                    // set the limb value for all key events
-                    var currentKey,
-                        limb = false,
-                        pressed = (evt.type === 'keydown');
-
-                    // Depending on the key pressed, change the limb value to match the associate limb
-                    switch (evt.keyCode) {
-                        case 81: // "Q"
-                            limb = document.getElementById('left-leg-1a').dataset.key;
-                            currentKey = QWOPKeys.q;
-                        break;
-                        case 87: // "W"
-                            limb = document.getElementById('right-leg-1a').dataset.key;
-                            currentKey = QWOPKeys.w;
-                        break;
-                        case 79: // "O"
-                            limb = document.getElementById('left-leg-2a').dataset.key;
-                            currentKey = QWOPKeys.o;
-                        break;
-                        case 80: // "P"
-                            limb = document.getElementById('right-leg-2a').dataset.key;;
-                            currentKey = QWOPKeys.p;
-                        break;
-                    }
-
-                    // If the limb value has been modified from the false state, submit the command
-                    if (limb) {
-
-                        // Add or remove the active class for the key based upon the action taken
-                        if (pressed) {
-                            currentKey.className = currentKey.className + ' active';
-                        } else {
-                            currentKey.className = currentKey.className.replace(/\sactive/g, '');
-                        }
-
-                        // depending on the type of key press, submit either the on or off state
-                        submitQWOPCommand(limb, ((pressed) ? 255 : 0));
-
-                    }
-                },
-
-                // Submit a limb press or depress to the socket connection
-                submitQWOPCommand = function (limb, state) {
-                    socket.emit('btnPress', {key: limb, value : state});
                 };
 
             // Loop through the buttons on the page
             for(i = 0; i < buttons.length; i++){
 
                 // Append the mousedown and mouseup states to be the created function
-                buttons[i].addEventListener('mousedown', tapLimb);
-                buttons[i].addEventListener('mouseup', tapLimb);
+                buttons[i].addEventListener('mousedown', tapLimb(true));
+                buttons[i].addEventListener('mouseup', tapLimb(false));
 
             }
 
-            // Add the event listener for the to the document for checking if it's the right key
-            document.addEventListener('keyup', activateQWOP);
-
         </script>
-        <script type="text/javascript" src="/vr.js"></script>
+        <script type="text/javascript" src="/additions/vr.js"></script>
+        <script type="text/javascript" src="/additions/qwop.js"></script>
     </body>
 </html>

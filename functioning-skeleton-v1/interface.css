@@ -1,0 +1,83 @@
+button {
+    position: absolute;
+    width: 72px;
+}
+
+i {
+    position: absolute;
+    float: left;
+    display: block;
+    left: 165px;
+    top: 59px;
+    width: 26px;
+    height: 10px;
+    border-radius: 5px;
+}
+
+a[class^="qwopbtn-"] {
+    position: relative;
+    top: 0px;
+    display: block;
+    width: 72px;
+    height: 72px;
+    line-height: 72px;
+    border: 1px solid grey;
+    border-radius: 4px;
+    color: silver;
+    text-align: center;
+    margin: 5px;
+    font-size:32px;
+}
+
+.qwopbtn-q,
+.qwopbtn-w {
+    float: left;
+    left: 0px;
+}
+
+.qwopbtn-o,
+.qwopbtn-p {
+    float: right;
+    right: 0px;
+}
+
+a.active {
+    color: #000;
+    background-color: silver;
+}
+
+#skeleton{
+  height: 600px;
+  width: 328px;
+  margin: 0 auto;
+  background: url('http://ewe.insomniacbychoice.com/images/skeleton.png') no-repeat center center;
+  position: relative;
+}
+
+#wrapper{
+  width: 100%;
+}
+
+#right-arm-1a { left: -20px; top: 256px; }
+#right-arm-1b { left: -20px; top: 276px; }
+
+#right-arm-2a { left: 50px; top: 146px; }
+#right-arm-2b { left: 50px; top: 166px; }
+
+#left-arm-1a { left: 267px; top: 256px; }
+#left-arm-1b { left: 267px; top: 276px; }
+
+#left-arm-2a { left: 207px; top: 146px; }
+#left-arm-2b { left: 207px; top: 166px; }
+
+#right-leg-1a { left: 80px; top: 346px; }
+#right-leg-1b { left: 80px; top: 366px; }
+
+#right-leg-2a { left: 67px; top: 516px; }
+#right-leg-2b { left: 67px; top: 536px; }
+
+#left-leg-1a { left: 187px; top: 346px; }
+#left-leg-1b { left: 187px; top: 366px; }
+
+#left-leg-2a { left: 157px; top: 516px; }
+#left-leg-2b { left: 157px; top: 536px; }

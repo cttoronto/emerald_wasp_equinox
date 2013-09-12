@@ -44,12 +44,15 @@
                 socket = io.connect('http://localhost:1337'),
 
                 // Setup the button function
-                tapLimb = function (activated) {
+                tapLimb = function (evt) {
+
+                    // Set activated to the result of whether the mouse has been pressed or unpressed
+                    activated = (evt.type === 'mousedown');
 
                     // Simply emit the data-key attribute along with the value of the button or 0 if the action is depressed
                     socket.emit('btnPress', {
                         key: this.dataset.key,
-                        value : ((activated) ? this.dataset.value.parseInt() : 0)
+                        value : ((activated) ? this.dataset.value : 0)
                     });
 
                 };
@@ -58,8 +61,8 @@
             for(i = 0; i < buttons.length; i++){
 
                 // Append the mousedown and mouseup states to be the created function
-                buttons[i].addEventListener('mousedown', tapLimb(true));
-                buttons[i].addEventListener('mouseup', tapLimb(false));
+                buttons[i].addEventListener('mousedown', tapLimb);
+                buttons[i].addEventListener('mouseup', tapLimb);
 
             }
 

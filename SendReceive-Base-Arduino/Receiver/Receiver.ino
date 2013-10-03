@@ -6,7 +6,7 @@
 int ledPin = 13;
 
 // Set the static pin for the RX data line
-int RXPin = 3
+int RXPin = 3;
 
 // Buffer variable
 char SensorCharMsg[1024]; 
